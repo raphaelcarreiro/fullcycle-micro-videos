@@ -1,6 +1,7 @@
 import { Category } from "./category";
 import { omit } from "lodash";
 import { v4, validate as uuidValidate } from "uuid";
+import UniqueEntityId from "../../../@seedwork/domain/unique-entity-id.vo";
 
 describe("Category test", () => {
   test("constructor", () => {
@@ -69,7 +70,7 @@ describe("Category test", () => {
     data.forEach((item) => {
       const category = new Category(item.props);
       expect(category.id).not.toBeNull();
-      expect(uuidValidate(category.id)).toBeTruthy();
+      expect(category.id).toBeInstanceOf(UniqueEntityId);
     });
   });
 
