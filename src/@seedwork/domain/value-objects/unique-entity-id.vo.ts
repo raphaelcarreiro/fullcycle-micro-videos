@@ -9,7 +9,7 @@ export default class UniqueEntityId extends ValueObject<string> {
   }
 
   private validate() {
-    const isValid = uuidValidate(this.id as string);
+    const isValid = uuidValidate(this.value);
 
     if (!isValid) {
       throw new InvalidUUidError();
