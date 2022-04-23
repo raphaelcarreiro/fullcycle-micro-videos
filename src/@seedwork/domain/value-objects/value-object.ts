@@ -1,6 +1,6 @@
 import { deepFreeze } from "../utils/objec";
 
-export abstract class ValueObject<Value = any> {
+export abstract class ValueObject<Value> {
   protected readonly _value: Value;
 
   constructor(value: Value) {
