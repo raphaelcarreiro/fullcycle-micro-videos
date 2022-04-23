@@ -1,6 +1,6 @@
 import { Category } from "./category";
 import { omit } from "lodash";
-import { v4, validate as uuidValidate } from "uuid";
+import { v4 } from "uuid";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
 describe("Category test", () => {
@@ -70,7 +70,7 @@ describe("Category test", () => {
     data.forEach((item) => {
       const category = new Category(item.props);
       expect(category.id).not.toBeNull();
-      expect(category.id).toBeInstanceOf(UniqueEntityId);
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
   });
 
@@ -117,5 +117,28 @@ describe("Category test", () => {
     category = new Category({ name: "Movie", created_at });
 
     expect(category.created_at).toBe(created_at);
+  });
+
+  it("should be possible update", () => {
+    const category = new Category({
+      name: "CATEGORY_NAME",
+      description: "CATEGORY_DESCRIPTION",
+    });
+
+    category.update({
+      name: "UPDATED_CATEGORY_NAME",
+      description: "UPDATED_CATEGORY_DESCRIPTION",
+    });
+
+    expect(category.name).toBe("UPDATED_CATEGORY_NAME");
+    expect(category.description).toBe("UPDATED_CATEGORY_DESCRIPTION");
+  });
+
+  it("should be possível toogle is_active attribute", () => {
+    const category = new Category({ name: "CATEGORY_NAME", is_active: false });
+
+    category.toggleIsActive();
+
+    expect(category.is_active).toBeTruthy();
   });
 });
