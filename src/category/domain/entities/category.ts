@@ -43,4 +43,13 @@ export class Category extends Entity<CategoryProperties> {
   private set created_at(value: Date | undefined) {
     this.props.created_at = value || new Date();
   }
+
+  update(payload: Pick<CategoryProperties, "name" | "description">) {
+    this.props.description = payload.description;
+    this.props.name = payload.name;
+  }
+
+  toggleIsActive() {
+    this.props.is_active = !this.props.is_active;
+  }
 }
