@@ -1,4 +1,11 @@
+import { ValidationError } from "../../errors/validation-error";
 import { ValidatorRules } from "./validator-rules";
+
+function assertIsValid({ value, property, rule, error }) {
+  expect(() => {
+    ValidatorRules.values(value, property)[rule]();
+  }).toThrow(error);
+}
 
 describe("Validator rules unit tests", () => {
   it("values method", () => {
@@ -14,23 +21,24 @@ describe("Validator rules unit tests", () => {
       {
         value: undefined,
         property: "FIELD",
-        messageError: "FIELD is required",
       },
       {
         value: "",
         property: "FIELD",
-        messageError: "FIELD is required",
       },
       {
         value: null,
         property: "FIELD",
-        messageError: "FIELD is required",
       },
     ];
 
     arrange.forEach(item => {
-      const validator = ValidatorRules.values(item.value, item.property);
-      expect(() => validator.required()).toThrow("FIELD is required");
+      assertIsValid({
+        value: item.value,
+        property: item.property,
+        error: new ValidationError("FIELD is required"),
+        rule: "required",
+      });
     });
   });
 
