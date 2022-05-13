@@ -10,10 +10,7 @@ export type CategoryProperties = {
 };
 export class Category extends Entity<CategoryProperties> {
   constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-    Category.validate({
-      name: props.name,
-      description: props.description,
-    });
+    Category.validate(props);
 
     super(props, id);
 
