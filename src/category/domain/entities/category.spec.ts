@@ -4,11 +4,16 @@ import { v4 } from "uuid";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
 describe("Category test", () => {
+  beforeEach(() => {
+    Category.validate = jest.fn();
+  });
+
   test("constructor", () => {
     let category = new Category({
       name: "Movie",
     });
     let props = omit(category.props, "created_at");
+    expect(Category.validate).toHaveBeenCalled();
     expect(props).toMatchObject({
       name: "Movie",
       description: null,
@@ -21,6 +26,7 @@ describe("Category test", () => {
       name: "Movie",
       description: "some description",
       is_active: false,
+      created_at,
     });
     expect(category.props).toStrictEqual({
       name: "Movie",
@@ -67,7 +73,7 @@ describe("Category test", () => {
       { props: { name: "Movie" }, undefined },
     ];
 
-    data.forEach((item) => {
+    data.forEach(item => {
       const category = new Category(item.props);
       expect(category.id).not.toBeNull();
       expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
@@ -130,11 +136,12 @@ describe("Category test", () => {
       description: "UPDATED_CATEGORY_DESCRIPTION",
     });
 
+    expect(Category.validate).toHaveBeenCalledTimes(2);
     expect(category.name).toBe("UPDATED_CATEGORY_NAME");
     expect(category.description).toBe("UPDATED_CATEGORY_DESCRIPTION");
   });
 
-  it("should be possível toogle is_active attribute", () => {
+  it("should be possible toogle is_active attribute", () => {
     const category = new Category({ name: "CATEGORY_NAME", is_active: false });
 
     category.toggleIsActive();

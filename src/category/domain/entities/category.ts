@@ -1,3 +1,4 @@
+import { ValidatorRules } from "../../../@seedwork/domain/validators/validator-rules";
 import { Entity } from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
@@ -9,6 +10,11 @@ export type CategoryProperties = {
 };
 export class Category extends Entity<CategoryProperties> {
   constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
+    Category.validate({
+      name: props.name,
+      description: props.description,
+    });
+
     super(props, id);
 
     this.description = props.description;
@@ -18,6 +24,10 @@ export class Category extends Entity<CategoryProperties> {
 
   get name() {
     return this.props.name;
+  }
+
+  private set name(value: string) {
+    this.props.name = value;
   }
 
   get description() {
@@ -45,8 +55,22 @@ export class Category extends Entity<CategoryProperties> {
   }
 
   update(payload: Pick<CategoryProperties, "name" | "description">) {
-    this.props.description = payload.description;
-    this.props.name = payload.name;
+    Category.validate({
+      name: payload.name,
+      description: payload.description,
+    });
+
+    this.description = payload.description;
+    this.name = payload.name;
+  }
+
+  static validate(props: Omit<CategoryProperties, "created_at">) {
+    ValidatorRules.values(props.name, "name")
+      .required()
+      .string()
+      .maxLength(255);
+    ValidatorRules.values(props.description, "description").string();
+    ValidatorRules.values(props.is_active, "is_active").boolean();
   }
 
   toggleIsActive() {
