@@ -1,5 +1,5 @@
-import { ValidationError } from "../../errors/validation-error";
-import { ValidatorRules } from "./validator-rules";
+import { ValidationError } from "../../../errors/validation-error";
+import { ValidatorRules } from "../validator-rules";
 
 type Values = {
   value: any;
@@ -22,12 +22,7 @@ function assertIsInvalid(expectedRule: ExpectedRule) {
   expect(() => runRule(expectedRule)).toThrow(expectedRule.error);
 }
 
-function runRule({
-  value,
-  property,
-  rule,
-  params,
-}: Omit<ExpectedRule, "error">) {
+function runRule({ value, property, rule, params }: Omit<ExpectedRule, "error">) {
   const validator = ValidatorRules.values(value, property);
   const method = validator[rule] as any;
 
@@ -151,9 +146,7 @@ describe("Validator rules unit tests", () => {
       assertIsInvalid({
         value: item.value,
         property: item.property,
-        error: new ValidationError(
-          "FIELD must be less or equal then 2 characters"
-        ),
+        error: new ValidationError("FIELD must be less or equal then 2 characters"),
         rule: "maxLength",
         params: [2],
       });
@@ -180,9 +173,7 @@ describe("Validator rules unit tests", () => {
       assertIsValid({
         value: item.value,
         property: item.property,
-        error: new ValidationError(
-          "FIELD must be less or equal then 2 characters"
-        ),
+        error: new ValidationError("FIELD must be less or equal then 2 characters"),
         rule: "maxLength",
         params: [10],
       });
@@ -243,15 +234,11 @@ describe("Validator rules unit tests", () => {
 
   it("should throw a validation error when combine two or more validation rules", () => {
     let validator = ValidatorRules.values(null, "field");
-    expect(() => validator.required().string().maxLength(5)).toThrow(
-      new ValidationError("field is required")
-    );
+    expect(() => validator.required().string().maxLength(5)).toThrow(new ValidationError("field is required"));
 
     validator = ValidatorRules.values(5, "field");
 
-    expect(() => validator.required().string().maxLength(5)).toThrow(
-      new ValidationError("field must be a string")
-    );
+    expect(() => validator.required().string().maxLength(5)).toThrow(new ValidationError("field must be a string"));
 
     validator = ValidatorRules.values("value", "field");
 

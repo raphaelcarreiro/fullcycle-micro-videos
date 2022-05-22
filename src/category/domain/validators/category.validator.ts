@@ -36,3 +36,9 @@ export class CategoryValidator extends ClassValidatorFields<CategoryRules> {
     return super.validate(new CategoryRules(data));
   }
 }
+
+export default class CategoryValidatorFactory {
+  static create() {
+    return new CategoryValidator();
+  }
+}
