@@ -8,10 +8,7 @@ describe("CategoryValidator Tests", () => {
   });
 
   it("invalidation cases for name fields", () => {
-    let isValid = validator.validate(null);
-
-    //@ts-ignore
-    expect({ validator, data: null }).containsErrorMessages({
+    expect({ validator, data: { name: null } }).containsErrorMessages({
       name: [
         "name should not be empty",
         "name must be a string",
@@ -19,23 +16,29 @@ describe("CategoryValidator Tests", () => {
       ],
     });
 
-    expect(isValid).toBeFalsy();
-    expect(validator.errors["name"]).toStrictEqual([
-      "name should not be empty",
-      "name must be a string",
-      "name must be shorter than or equal to 255 characters",
-    ]);
+    expect({ validator, data: { name: "" } }).containsErrorMessages({
+      name: ["name should not be empty"],
+    });
 
-    isValid = validator.validate({ name: "" });
-    expect(isValid).toBeFalsy();
-    expect(validator.errors["name"]).toStrictEqual(["name should not be empty"]);
+    expect({ validator, data: { name: 5 as any } }).containsErrorMessages({
+      name: ["name must be a string", "name must be shorter than or equal to 255 characters"],
+    });
 
-    isValid = validator.validate({ name: 666 });
-    expect(isValid).toBeFalsy();
-    expect(validator.errors["name"]).toStrictEqual([
-      "name must be a string",
-      "name must be shorter than or equal to 255 characters",
-    ]);
+    expect({ validator, data: { name: "t".repeat(256) } }).containsErrorMessages({
+      name: ["name must be shorter than or equal to 255 characters"],
+    });
+  });
+
+  it("invalidation cases for description field", () => {
+    expect({ validator, data: { description: 5 } }).containsErrorMessages({
+      description: ["description must be a string"],
+    });
+  });
+
+  it("invalidation cases for is_active field", () => {
+    expect({ validator, data: { name: "Movie", descrition: "Some description", is_active: 5 } }).containsErrorMessages({
+      is_active: ["is_active must be a boolean value"],
+    });
   });
 
   it("valid cases for fields", () => {
