@@ -1,4 +1,4 @@
-import { NotFoundError } from "@seedwork/errors/not-found.error";
+import { NotFoundError } from "../../../@seedwork/errors/not-found.error";
 import { Entity } from "../entity/entity";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
 import { RepositoryInterface } from "./repository-contract";

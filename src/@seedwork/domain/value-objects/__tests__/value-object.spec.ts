@@ -1,6 +1,6 @@
 import { ValueObject } from "../value-object";
 
-class StubValueObject extends ValueObject {}
+class StubValueObject extends ValueObject<any> {}
 
 describe("Value objects tests", () => {
   it("shoud set value", () => {
@@ -28,7 +28,7 @@ describe("Value objects tests", () => {
       },
     ];
 
-    arrange.forEach((value) => {
+    arrange.forEach(value => {
       const stubValueObject = new StubValueObject(value.received);
       expect(`${stubValueObject}`).toBe(value.expected);
     });
