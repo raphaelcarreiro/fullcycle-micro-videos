@@ -16,7 +16,7 @@ export default abstract class InMemoryRepository<E extends Entity> implements Re
   }
 
   async findAll(): Promise<E[]> {
-    throw new Error("Method not implemented.");
+    return this.items;
   }
 
   async update(entity: E): Promise<void> {
@@ -32,7 +32,7 @@ export default abstract class InMemoryRepository<E extends Entity> implements Re
 
     await this._get(_id);
 
-    this.items.filter(item => item.id !== _id);
+    this.items = this.items.filter(item => item.id !== _id);
   }
 
   protected async _get(id: string): Promise<E> {
