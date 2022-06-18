@@ -12,7 +12,7 @@ export interface RepositoryInterface<E extends Entity> {
 export type SortDirection = "asc" | "desc";
 
 export type SearchProps<Filter = string> = {
-  page?: number;
+  page?: number | null;
   per_page?: number;
   sort?: string;
   sort_direction?: SortDirection;
@@ -20,7 +20,7 @@ export type SearchProps<Filter = string> = {
 };
 
 export class SearchParams {
-  protected _page: number;
+  protected _page: number | null;
   protected _per_page: number = 15;
   protected _sort: string | null = null;
   protected _sort_direction: SortDirection | null = null;
@@ -28,17 +28,17 @@ export class SearchParams {
 
   constructor(props?: SearchProps) {
     this.page = props?.page;
-    this.per_page = props?.per_page ?? 15;
-    this.sort = props?.sort ?? null;
-    this.sort_direction = props?.sort_direction ?? null;
-    this.filter = props?.filter ?? null;
+    this.per_page = props?.per_page;
+    this.sort = props?.sort;
+    this.sort_direction = props?.sort_direction;
+    this.filter = props?.filter;
   }
 
-  get page(): number {
+  get page(): number | null {
     return this._page;
   }
 
-  private set page(value: number | undefined) {
+  private set page(value: number | undefined | null) {
     let _page = parseInt(`${value}`);
 
     if (!Number.isInteger(_page) || _page <= 0) {
@@ -52,29 +52,29 @@ export class SearchParams {
     return this._per_page;
   }
 
-  private set per_page(value: number) {
+  private set per_page(value: number | undefined) {
     let _value = parseInt(`${value}`);
 
     if (!Number.isInteger(_value) || _value <= 0) {
       _value = 15;
     }
 
-    this._per_page = value;
+    this._per_page = _value;
   }
 
   get sort(): string | null {
     return this._sort;
   }
 
-  private set sort(value: string | null) {
-    this._sort = value || `${value}`;
+  private set sort(value: string | null | undefined) {
+    this._sort = value ? `${value}` : null;
   }
 
   get sort_direction(): SortDirection | null {
     return this._sort_direction;
   }
 
-  private set sort_direction(value: SortDirection | null) {
+  private set sort_direction(value: SortDirection | null | undefined) {
     if (!this.sort) {
       this._sort_direction = null;
       return;
@@ -89,8 +89,8 @@ export class SearchParams {
     return this._filter;
   }
 
-  private set filter(value: string | null) {
-    this._filter = value || `${value}`;
+  private set filter(value: string | null | undefined) {
+    this._filter = value ? `${value}` : null;
   }
 }
 
