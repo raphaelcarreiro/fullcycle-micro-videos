@@ -1,4 +1,4 @@
-import { SearchableRepositoryInterface } from "@seedwork/domain/repository/repository-contract";
+import { SearchableRepositoryInterface } from "@seedwork/domain/repository/repository-contracts";
 import { Category } from "category/domain/entities/category";
 import { InMemorySearchableRepository } from "../../../@seedwork/domain/repository/in-memory.repository";
 

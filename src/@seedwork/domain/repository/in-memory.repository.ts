@@ -2,7 +2,7 @@ import { Category } from "category/domain/entities/category";
 import { NotFoundError } from "../../../@seedwork/errors/not-found.error";
 import { Entity } from "../entity/entity";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
-import { RepositoryInterface, SearchableRepositoryInterface } from "./repository-contract";
+import { RepositoryInterface, SearchableRepositoryInterface } from "./repository-contracts";
 
 export abstract class InMemoryRepository<E extends Entity> implements RepositoryInterface<E> {
   items: E[] = [];

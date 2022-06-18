@@ -26,20 +26,26 @@ export class SearchParams {
   protected _sort_direction: SortDirection | null = null;
   protected _filter: string | null = null;
 
-  constructor(props: SearchProps) {
-    this.page = props.page ?? 1;
-    this.per_page = props.per_page ?? 15;
-    this.sort = props.sort ?? null;
-    this.sort_direction = props.sort_direction ?? null;
-    this.filter = props.filter ?? null;
+  constructor(props?: SearchProps) {
+    this.page = props?.page;
+    this.per_page = props?.per_page ?? 15;
+    this.sort = props?.sort ?? null;
+    this.sort_direction = props?.sort_direction ?? null;
+    this.filter = props?.filter ?? null;
   }
 
   get page(): number {
     return this._page;
   }
 
-  private set page(value: number) {
-    this._page = value;
+  private set page(value: number | undefined) {
+    let _page = parseInt(`${value}`);
+
+    if (!Number.isInteger(_page) || _page <= 0) {
+      _page = 1;
+    }
+
+    this._page = _page;
   }
 
   get per_page(): number {
@@ -47,6 +53,12 @@ export class SearchParams {
   }
 
   private set per_page(value: number) {
+    let _value = parseInt(`${value}`);
+
+    if (!Number.isInteger(_value) || _value <= 0) {
+      _value = 15;
+    }
+
     this._per_page = value;
   }
 
@@ -55,7 +67,7 @@ export class SearchParams {
   }
 
   private set sort(value: string | null) {
-    this._sort = value;
+    this._sort = value || `${value}`;
   }
 
   get sort_direction(): SortDirection | null {
@@ -63,7 +75,14 @@ export class SearchParams {
   }
 
   private set sort_direction(value: SortDirection | null) {
-    this._sort_direction = value;
+    if (!this.sort) {
+      this._sort_direction = null;
+      return;
+    }
+
+    value = `${value}`.toLowerCase() as SortDirection;
+
+    this._sort_direction = value !== "asc" && value !== "desc" ? "asc" : value;
   }
 
   get filter(): string | null {
@@ -71,7 +90,7 @@ export class SearchParams {
   }
 
   private set filter(value: string | null) {
-    this._filter = value;
+    this._filter = value || `${value}`;
   }
 }
 
