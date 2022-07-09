@@ -1,7 +1,7 @@
-import { NotFoundError } from "../../../@seedwork/errors/not-found.error";
-import { Entity } from "../entity/entity";
-import UniqueEntityId from "../value-objects/unique-entity-id.vo";
-import InMemoryRepository from "./in-memory.repository";
+import { NotFoundError } from "../../../errors/not-found.error";
+import { Entity } from "../../entity/entity";
+import UniqueEntityId from "../../value-objects/unique-entity-id.vo";
+import { InMemoryRepository } from "../in-memory.repository";
 
 class StubEntityProps {
   name: string;
