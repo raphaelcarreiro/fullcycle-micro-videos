@@ -1,8 +1,13 @@
-import { Category } from "category/domain/entities/category";
 import { NotFoundError } from "../../../@seedwork/errors/not-found.error";
 import { Entity } from "../entity/entity";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
-import { RepositoryInterface, SearchableRepositoryInterface } from "./repository-contracts";
+import {
+  RepositoryInterface,
+  SearchableRepositoryInterface,
+  SearchParams,
+  SearchResult,
+  SortDirection,
+} from "./repository-contracts";
 
 export abstract class InMemoryRepository<E extends Entity> implements RepositoryInterface<E> {
   items: E[] = [];
@@ -49,9 +54,63 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
 
 export abstract class InMemorySearchableRepository<E extends Entity>
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, any, any>
+  implements SearchableRepositoryInterface<E>
 {
-  search(props: any): Promise<any> {
-    throw new Error("Method not implemented");
+  sortableFields: string[] = [];
+
+  async search(props: SearchParams): Promise<SearchResult<E>> {
+    const filtered = await this.applyFilter(this.items, props.filter);
+    const sorted = await this.applySort(filtered, props.sort, props.sort_direction);
+    const paginated = await this.applyPaginate(sorted, props.page, props.per_page);
+
+    return new SearchResult({
+      items: paginated,
+      total: filtered.length,
+      current_page: props.page || 1,
+      per_page: props.per_page,
+      sort: props.sort,
+      sort_direction: props.sort_direction,
+      filter: props.filter,
+    });
+  }
+
+  protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>;
+
+  protected async applySort(items: E[], sort: string | null, sort_direction: SortDirection | null): Promise<E[]> {
+    if (!sort) {
+      return items;
+    }
+
+    if (!this.sortableFields.includes(sort)) {
+      return items;
+    }
+
+    return [...items].sort((a, b) => {
+      if (a.props[sort] < b.props[sort]) {
+        return sort_direction === "asc" ? -1 : 1;
+      }
+
+      if (a.props[sort] > b.props[sort]) {
+        return sort_direction === "asc" ? 1 : -1;
+      }
+
+      return 0;
+    });
+  }
+
+  protected async applyPaginate(
+    items: E[],
+    page: SearchParams["page"],
+    per_page: SearchParams["per_page"]
+  ): Promise<E[]> {
+    if (!page) {
+      page = 1;
+    }
+
+    const start = (page - 1) * per_page;
+
+    const limit = start + per_page;
+
+    return items.slice(+start, limit);
   }
 }
