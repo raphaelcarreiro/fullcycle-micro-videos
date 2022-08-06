@@ -9,7 +9,7 @@ export class CategoryInMemoryRepository
 {
   sortableFields: string[] = ["created_at", "name"];
 
-  protected async applyFilter(items: Category[], filter: CategoryRepository.Filter): Promise<Category[]> {
+  protected async applyFilter(items: Category[], filter?: CategoryRepository.Filter | null): Promise<Category[]> {
     if (!filter) {
       return items;
     }

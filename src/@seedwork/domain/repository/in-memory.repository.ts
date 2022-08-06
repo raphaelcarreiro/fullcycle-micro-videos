@@ -74,7 +74,7 @@ export abstract class InMemorySearchableRepository<E extends Entity>
     });
   }
 
-  protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>;
+  protected abstract applyFilter(items: E[], filter?: string | null): Promise<E[]>;
 
   protected async applySort(items: E[], sort: string | null, sort_direction: SortDirection | null): Promise<E[]> {
     if (!sort) {

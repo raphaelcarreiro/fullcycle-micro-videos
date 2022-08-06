@@ -19,6 +19,11 @@ describe("CategoryInMemoryRepository tests", () => {
     expect(filtered).toStrictEqual([serie]);
   });
 
+  it("should not apply filter when there is no filter value", async () => {
+    const filtered = await repository["applyFilter"](categories);
+    expect(filtered).toStrictEqual([movie, serie, manga]);
+  });
+
   it("should apply sort with created_at as default", async () => {
     const sorted = await repository["applySort"](categories);
     expect(sorted).toStrictEqual([manga, movie, serie]);
@@ -29,6 +34,11 @@ describe("CategoryInMemoryRepository tests", () => {
     expect(sorted).toStrictEqual([manga, movie, serie]);
 
     sorted = await repository["applySort"](categories, "name", "desc");
+    expect(sorted).toStrictEqual([serie, movie, manga]);
+  });
+
+  it("should apply sort with sort_direction desc as default value", async () => {
+    let sorted = await repository["applySort"](categories, "name");
     expect(sorted).toStrictEqual([serie, movie, manga]);
   });
 });
