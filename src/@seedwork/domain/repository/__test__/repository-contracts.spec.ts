@@ -92,17 +92,17 @@ describe("Search Unit Tests", () => {
         { filter: null, expected: null },
         { filter: undefined, expected: null },
         { filter: "", expected: null },
-        { filter: 15, expected: "15" },
+        { filter: 15, expected: 15 },
         { filter: "fake", expected: "fake" },
-        { filter: true, expected: "true" },
-        { filter: -10, expected: "-10" },
-        { filter: {}, expected: "[object Object]" },
-        { filter: 5.5, expected: "5.5" },
+        { filter: true, expected: true },
+        { filter: -10, expected: -10 },
+        { filter: {}, expected: {} },
+        { filter: 5.5, expected: 5.5 },
       ];
 
       arrange.forEach(item => {
         const params = new SearchParams({ filter: item.filter as any });
-        expect(params.filter).toBe(item.expected);
+        expect(params.filter).toStrictEqual(item.expected);
       });
     });
   });
