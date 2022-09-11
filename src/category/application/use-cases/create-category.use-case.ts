@@ -1,5 +1,5 @@
 import { Category } from "../../../category/domain/entities/category";
-import CategoryRepository from "category/domain/repository/category.repository.interface";
+import { CategoryRepository } from "category/domain/repository/category.repository.interface";
 import { CategoryOutput, CategoryOutputMapper } from "../dto/category-output";
 import { UseCase } from "@seedwork/application/use-case";
 
