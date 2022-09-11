@@ -11,9 +11,9 @@ describe("CategoryOutputMapper tests", () => {
       new UniqueEntityId("7e3cda8f-53e2-4014-a0fd-b5657d6ecb78")
     );
 
-    const output = CategoryOutputMapper.toOutput(category);
-
     const spyToJson = jest.spyOn(category, "toJSON");
+
+    const output = CategoryOutputMapper.toOutput(category);
 
     expect(spyToJson).toBeCalled();
     expect(output).toStrictEqual({
