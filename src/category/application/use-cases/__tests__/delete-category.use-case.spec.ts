@@ -21,7 +21,7 @@ describe("DeleteCategoryUseCase unit tests", () => {
     ).rejects.toThrow(NotFoundError);
   });
 
-  it("should get a category", async () => {
+  it("should delete a category", async () => {
     const category = new Category({ name: "Movie" });
 
     repository.items = [category];
