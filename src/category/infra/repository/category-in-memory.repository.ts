@@ -1,4 +1,4 @@
-import { SortDirection } from "@core/seedwork/domain/repository/repository-contracts";
+import { SortDirection } from "#seedwork/domain/repository/repository-contracts";
 import { Category } from "category/domain/entities/category";
 import { CategoryRepository } from "category/domain/repository/category.repository.interface";
 import { InMemorySearchableRepository } from "../../../@seedwork/domain/repository/in-memory.repository";

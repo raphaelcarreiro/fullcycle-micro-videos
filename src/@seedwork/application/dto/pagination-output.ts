@@ -1,4 +1,4 @@
-import { SearchResult } from "@core/seedwork/domain/repository/repository-contracts";
+import { SearchResult } from "#seedwork/domain/repository/repository-contracts";
 
 export type PaginationOutputDto<EntityOutput = any> = {
   total: number;
