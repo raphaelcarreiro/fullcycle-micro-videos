@@ -13,8 +13,11 @@
     "skipLibCheck": true,
     "noImplicitAny": false,
     "paths": {
-      "@core/seedwork/*": ["./@seedwork/*"]
-    }
+      "#seedwork/*": ["./@seedwork/*"],
+      "#category/*": ["./category/*"]
+    },
+    "outDir": "./dist",
+    "declaration": true
   },
   "include": ["src/"]
 }
