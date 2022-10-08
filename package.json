@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "admin do catologo de vídeos",
   "main": "index.js",
+  "imports": {
+    "#seedwork/*": "./dist/@seedwork/*.js",
+    "#category/*": "./dist/category/*.js"
+  },
   "scripts": {
     "ts-node": "ts-node",
     "tsc": "tsc",
     "tsc:check": "tsc --noEmit",
     "clean:tsc": "rm tsconfig.tsbuildinfo",
     "test": "jest",
-    "test:cov": "npm rum test -- --coverage"
+    "test:cov": "npm rum test -- --coverage",
+    "cti": "cti",
+    "cti:@core": "sh ./cti.sh"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +27,7 @@
     "@types/lodash": "^4.14.180",
     "@types/node": "^14.15.4",
     "@types/uuid": "^8.3.4",
+    "create-ts-index": "^1.14.0",
     "jest": "^27.5.1",
     "regenerator-runtime": "^0.13.9",
     "ts-node": "^10.7.0",
