@@ -3,6 +3,9 @@
     "parser": {
       "syntax": "typescript",
       "decorators": true
+    },
+    "paths": {
+      "@core/seedwork/*": ["./@seedwork/*"]
     }
   }
 }
