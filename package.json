@@ -1,40 +1,26 @@
 {
   "name": "micro-videos",
   "version": "1.0.0",
-  "description": "admin do catologo de vídeos",
+  "description": "",
   "main": "index.js",
-  "imports": {
-    "#seedwork/*": "./dist/@seedwork/*.js",
-    "#category/*": "./dist/category/*.js"
-  },
   "scripts": {
-    "ts-node": "ts-node",
-    "tsc": "tsc",
-    "tsc:check": "tsc --noEmit",
-    "clean:tsc": "rm tsconfig.tsbuildinfo",
-    "test": "jest",
-    "test:cov": "npm rum test -- --coverage",
-    "cti": "cti",
-    "cti:@core": "sh ./cti.sh"
+    "dev": "npm run start:dev -w nestjs",
+    "predev": "npm run build -w micro-videos-core",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelcarreiro/fullcycle-micro-videos.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@swc/core": "^1.2.159",
-    "@swc/jest": "^0.2.20",
-    "@types/jest": "^27.4.1",
-    "@types/lodash": "^4.14.180",
-    "@types/node": "^14.15.4",
-    "@types/uuid": "^8.3.4",
-    "create-ts-index": "^1.14.0",
-    "jest": "^27.5.1",
-    "regenerator-runtime": "^0.13.9",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.8.3"
+  "bugs": {
+    "url": "https://github.com/raphaelcarreiro/fullcycle-micro-videos/issues"
   },
-  "dependencies": {
-    "class-validator": "^0.13.2",
-    "uuid": "^8.3.2"
-  }
+  "homepage": "https://github.com/raphaelcarreiro/fullcycle-micro-videos#readme",
+  "workspaces": [
+    "./src/@core",
+    "./src/nestjs"
+  ]
 }
